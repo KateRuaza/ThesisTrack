@@ -44,7 +44,20 @@ class BorrowerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'status' => 'required|in:active,returned,not_returned,late',
+        ]);
+
+        $borrower = Borrower::findOrFail($id);
+
+        if ($request->status === 'returned') {
+            $borrower->status = $borrower->created_at->diffInDays(now()) > 7 ? 'late' : 'returned';
+        } else {
+            $borrower->status = $request->status;
+        }
+
+        $borrower->returned_at = now();
+        $borrower->save();
     }
 
     /**
