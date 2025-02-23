@@ -15,5 +15,6 @@ class Borrower extends Model
         'contact_number',
         'address',
         'thesis_name',
+        'returned_at',
     ];
 }

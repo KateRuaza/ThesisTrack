@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('thesis_name');
             $table->enum('status', ['active', 'returned', 'not_returned', 'late'])->default('active');
+            $table->timestamp('returned_at')->nullable();
             $table->timestamps();
         });
     }
