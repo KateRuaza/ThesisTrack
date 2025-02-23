@@ -14,11 +14,9 @@ const logout = () => {
     router.post(route('logout'));
 };
 
-/*const links = ref([
-    { label: 'Home', icon: '🏠', route: 'home' },
-    { label: 'Add New Vehicle', icon: '➕', route: 'admin.vehicles.create' },
-    { label: 'Impound Record', icon: '📕', route: 'admin.vehicles.index' },
-]);*/
+const links = ref([
+    { label: 'Borrow Form', icon: '📑', route: 'borrowers.create' },
+]);
 
 const showingSidebar = ref(false);
 const showAccountDropdown = ref(false);
@@ -35,13 +33,13 @@ const showAccountDropdown = ref(false);
             <div class="h-full py-4 px-3 overflow-y-auto flex flex-col">
                 <div class="">
                     <h2 class="text-lg font-serif dark:text-gray-200 mb-4">ThesisTrack</h2>
-                    <!-- <ul class="space-y-2 font-medium">
+                    <ul class="space-y-2 font-medium">
                         <li v-for="(link, index) in links" :key="index">
                             <NavLink class="w-full" :href="route(link.route)" :active="route().current(link.route)">
                                 {{ link.icon }} {{ link.label }}
                             </NavLink>
                         </li>
-                    </ul> -->
+                    </ul>
                 </div>
                 <div class="pt-4 relative mt-auto">
                     <button @click="showAccountDropdown = !showAccountDropdown" class="flex items-center space-x-2 w-full text-left">
