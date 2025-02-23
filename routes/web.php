@@ -24,4 +24,6 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('borrowers', BorrowerController::class);
+
+    Route::post('/notify', [BorrowerController::class, 'notify'])->name('notify');
 });

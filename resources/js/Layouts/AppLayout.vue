@@ -21,6 +21,11 @@ const links = ref([
 
 const showingSidebar = ref(false);
 const showAccountDropdown = ref(false);
+
+const notify = () => {
+    router.post(route('notify'));
+    alert('Sending notifications in the background');
+};
 </script>
 
 <template>
@@ -38,6 +43,11 @@ const showAccountDropdown = ref(false);
                         <li v-for="(link, index) in links" :key="index">
                             <NavLink class="w-full" :href="route(link.route)" :active="route().current(link.route)">
                                 {{ link.icon }} {{ link.label }}
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink @click="notify">
+                                📧 Send Notifications
                             </NavLink>
                         </li>
                     </ul>
