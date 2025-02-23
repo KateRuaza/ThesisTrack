@@ -1,14 +1,35 @@
 <script setup>
+import { computed, ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 import { formatDate } from '@/helper.js';
 import AppLayout from '@/Layouts/AppLayout.vue';
+import BorrowerStatus from '@/Components/BorrowerStatus.vue';
 import Pagination from '@/Components/Pagination.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
     borrowers: Object,
 });
 
 const hasPagination = computed(() => props.borrowers.links && props.borrowers.links.length > 3);
+
+const updateStatus = (borrower, status) => {
+    router.put(route('borrowers.update', borrower.id), {
+        status: status,
+    }, {
+        onSuccess: () => {
+            showPopup.value = false;
+        },
+        onError: (e) => {
+            console.error(e);
+        }
+    });
+};
+
+const showPopup = ref(null);
+
+const togglePopup = (id) => {
+    showPopup.value = showPopup.value === id ? null : id;
+};
 </script>
 
 <template>
@@ -29,7 +50,8 @@ const hasPagination = computed(() => props.borrowers.links && props.borrowers.li
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thesis Name</th>
-                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrowed At</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Returned At</th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     </tr>
                                 </thead>
@@ -38,16 +60,11 @@ const hasPagination = computed(() => props.borrowers.links && props.borrowers.li
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-300">{{ borrower.name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ borrower.thesis_name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ formatDate(borrower.created_at) }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                            {{ borrower.returned_at ? formatDate(borrower.returned_at) : '' }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <span class="px-3 py-1 rounded-full text-white text-xs font-semibold"
-                                                :class="{
-                                                    'bg-green-400': borrower.status === 'active',
-                                                    'bg-blue-400': borrower.status === 'returned',
-                                                    'bg-yellow-400': borrower.status === 'not_returned',
-                                                    'bg-red-400': borrower.status === 'late'
-                                                }">
-                                                {{ borrower.status.replace('_', ' ') }}
-                                            </span>
+                                            <BorrowerStatus :borrower="borrower" :showPopup="showPopup" @togglePopup="togglePopup" @updateStatus="updateStatus" />
                                         </td>
                                     </tr>
                                     <tr v-if="borrowers.data.length === 0">
