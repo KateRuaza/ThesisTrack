@@ -16,6 +16,7 @@ const logout = () => {
 
 const links = ref([
     { label: 'Borrow Form', icon: '📑', route: 'borrowers.create' },
+    { label: 'Record', icon: '📦', route: 'borrowers.index' },
 ]);
 
 const showingSidebar = ref(false);
