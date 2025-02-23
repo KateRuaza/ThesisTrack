@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBorrowerRequest;
-use App\Http\Requests\StoreBorrowRequest;
 use App\Models\Borrower;
 use Illuminate\Http\Request;
 
@@ -14,7 +13,9 @@ class BorrowerController extends Controller
      */
     public function index()
     {
-        //
+        $borrowers = Borrower::paginate(10);
+
+        return inertia('Admin/BorrowerRecord', compact('borrowers'));
     }
 
     public function create()
