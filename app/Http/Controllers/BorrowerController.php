@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DueDateApproaching;
 use App\Http\Requests\StoreBorrowerRequest;
 use App\Models\Borrower;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BorrowerController extends Controller
@@ -67,4 +69,14 @@ class BorrowerController extends Controller
     {
         //
     }
+
+    public function notify()
+    {
+        $borrowers = Borrower::whereDate('created_at', Carbon::now()->subDays(6))
+            ->whereNotIn('status', ['returned', 'late'])
+            ->get();
+
+        DueDateApproaching::dispatch($borrowers);
+    }
+
 }
