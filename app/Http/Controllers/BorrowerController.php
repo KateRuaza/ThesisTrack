@@ -38,7 +38,9 @@ class BorrowerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $borrower = Borrower::findOrFail($id);
+
+        return inertia('Admin/BorrowerDetails', compact('borrower'));
     }
 
     /**
