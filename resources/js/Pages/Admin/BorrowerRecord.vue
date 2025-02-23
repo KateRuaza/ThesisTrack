@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { router } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
 import { formatDate } from '@/helper.js';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import BorrowerStatus from '@/Components/BorrowerStatus.vue';
@@ -57,7 +57,9 @@ const togglePopup = (id) => {
                                 </thead>
                                 <tbody>
                                     <tr v-for="borrower in borrowers.data" :key="borrower.id" class="bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-300">{{ borrower.name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-300">
+                                            <Link :href="route('borrowers.show', borrower.id)">{{ borrower.name }}</Link>
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ borrower.thesis_name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ formatDate(borrower.created_at) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
