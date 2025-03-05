@@ -16,5 +16,7 @@ class Borrower extends Model
         'address',
         'thesis_name',
         'returned_at',
+        'first_warning',
+        'last_warning',
     ];
 }
