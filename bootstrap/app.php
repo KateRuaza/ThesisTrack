@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\MarkOverdueBorrowsJob;
 use App\Jobs\NotifyDueBorrowersJob;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->job(new NotifyDueBorrowersJob())->dailyAt('7:00');
+        $schedule->job(new MarkOverdueBorrowsJob())->dailyAt('7:00');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
