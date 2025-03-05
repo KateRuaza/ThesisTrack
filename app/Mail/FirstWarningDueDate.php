@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Borrower;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -10,7 +11,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class DeadlineEmail extends Mailable
+class FirstWarningDueDate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,7 +20,7 @@ class DeadlineEmail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($borrower)
+    public function __construct(Borrower $borrower)
     {
         $this->borrower = $borrower;
     }
@@ -41,7 +42,7 @@ class DeadlineEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.deadline',
+            view: 'emails.first-warning',
         );
     }
 }
