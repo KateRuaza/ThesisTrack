@@ -20,11 +20,6 @@ const links = ref([
 
 const showingSidebar = ref(false);
 const showAccountDropdown = ref(false);
-
-const notify = () => {
-    router.post(route('notify'));
-    alert('Sending notifications in the background');
-};
 </script>
 
 <template>
@@ -43,10 +38,6 @@ const notify = () => {
                             <NavLink class="w-full" :href="route(link.route)" :active="route().current(link.route)">
                                 {{ link.icon }} {{ link.label }}
                             </NavLink>
-                        </li>
-                        <li>
-                            <div @click="notify" class="ms-1 cursor-pointer text-sm">📧 Send Notifications
-                            </div>
                         </li>
                     </ul>
                 </div>
