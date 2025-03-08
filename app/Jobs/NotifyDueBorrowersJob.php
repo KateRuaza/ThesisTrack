@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\WarningsSentEvent;
 use App\Mail\FirstWarningDueDate;
 use App\Mail\LastWarningDueDate;
 use App\Models\Borrower;
@@ -41,6 +42,8 @@ class NotifyDueBorrowersJob implements ShouldQueue
 
         $this->sendWarning($borrowersFirstWarning, 'first');
         $this->sendWarning($borrowerslastWarning, 'last');
+
+        broadcast(new WarningsSentEvent());
     }
 
     private function sendWarning(Collection $borrowers, string $type)

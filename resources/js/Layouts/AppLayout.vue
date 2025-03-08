@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, onMounted } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import Banner from '@/Components/Banner.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
+import Swal from 'sweetalert2';
+
+const { auth } = usePage().props;
 
 defineProps({
     title: String,
@@ -20,6 +23,19 @@ const links = ref([
 
 const showingSidebar = ref(false);
 const showAccountDropdown = ref(false);
+
+onMounted(() => {
+    Echo.private(`warnings.sent.${auth.user.id}`)
+        .listen('WarningsSentEvent', (event) => {
+            console.log('Emails sent!');
+            Swal.fire({
+              icon: "success",
+              title: "Emails Sent!",
+              showConfirmButton: false,
+              timer: 9000
+            });
+        });
+});
 </script>
 
 <template>
