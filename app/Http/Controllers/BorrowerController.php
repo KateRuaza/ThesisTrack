@@ -11,9 +11,22 @@ class BorrowerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $borrowers = Borrower::paginate(10);
+        $filterName = $request->input('filterName');
+        $filterStartMonth = $request->input('filterStartMonth');
+        $filterEndMonth = $request->input('filterEndMonth');
+
+        $borrowers = Borrower::when($filterName, function ($query) use ($filterName) {
+            $query->where('name', 'like', '%'.$filterName.'%');
+        })
+        ->when($filterStartMonth, function ($query) use ($filterStartMonth) {
+            $query->where('created_at', '>=', $filterStartMonth);
+        })
+        ->when($filterEndMonth, function ($query) use ($filterEndMonth) {
+            $query->where('created_at', '<=', $filterEndMonth);
+        })
+        ->paginate(10);
 
         return inertia('Admin/BorrowerRecord', compact('borrowers'));
     }
