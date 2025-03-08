@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BorrowersExport;
 use App\Http\Requests\StoreBorrowerRequest;
 use App\Models\Borrower;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BorrowerController extends Controller
 {
@@ -81,5 +83,14 @@ class BorrowerController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function export(Request $request)
+    {
+        $filterName = $request->input('filterName');
+        $filterStartMonth = $request->input('filterStartMonth');
+        $filterEndMonth = $request->input('filterEndMonth');
+
+        return Excel::download(new BorrowersExport($filterName, $filterStartMonth, $filterEndMonth), 'borrowers.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv',]);
     }
 }
