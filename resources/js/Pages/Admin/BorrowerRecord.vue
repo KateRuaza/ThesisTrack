@@ -57,6 +57,14 @@ const clearFilters = () => {
     }, { preserveState: true });
 };
 
+const exportData = () => {
+    window.location.href = route('export', {
+        filterName: filterName.value || '',
+        filterStartMonth: filterStartMonth.value || '',
+        filterEndMonth: filterEndMonth.value || ''
+    });
+};
+
 watch([filterName, filterStartMonth, filterEndMonth], debounce(() => {
     router.get(route('borrowers.index'), {
         filterName: filterName.value,
@@ -81,7 +89,7 @@ watch([filterName, filterStartMonth, filterEndMonth], debounce(() => {
                     <TextInput v-model="filterName" placeholder="Search.." class="me-4"/>
                     <div class="space-x-2">
                         <SecondaryButton @click="toggleDateRangeFilter">Filter</SecondaryButton>
-                        <SecondaryButton>Generate Report</SecondaryButton>
+                        <SecondaryButton @click="exportData">Generate Report</SecondaryButton>
                     </div>
                 </div>
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg">

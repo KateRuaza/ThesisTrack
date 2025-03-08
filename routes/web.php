@@ -25,5 +25,5 @@ Route::middleware([
 
     Route::resource('borrowers', BorrowerController::class);
 
-    Route::post('/notify', [BorrowerController::class, 'notify'])->name('notify');
+    Route::get('/borrowers-export', [BorrowerController::class, 'export'])->name('export');
 });
