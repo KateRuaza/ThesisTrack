@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Borrower;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,13 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@email.com',
-        ]);
-
-        Borrower::factory(50)->create();
+        $this->call(BorrowerSeeder::class);
     }
 }
