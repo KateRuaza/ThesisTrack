@@ -29,6 +29,8 @@ class NotifyDueBorrowersJob implements ShouldQueue
      */
     public function handle(): void
     {
+        broadcast(new WarningsSentEvent);
+
         $borrowersFirstWarning = Borrower::whereDate('created_at', Carbon::now()->subDays(6))
             ->whereNotIn('status', ['returned', 'late'])
             ->whereNull('first_warning')
@@ -42,8 +44,6 @@ class NotifyDueBorrowersJob implements ShouldQueue
 
         $this->sendWarning($borrowersFirstWarning, 'first');
         $this->sendWarning($borrowerslastWarning, 'last');
-
-        broadcast(new WarningsSentEvent());
     }
 
     private function sendWarning(Collection $borrowers, string $type)
@@ -51,10 +51,10 @@ class NotifyDueBorrowersJob implements ShouldQueue
         foreach ($borrowers as $borrower) {
 
             if ($type === 'first') {
-                Mail::to($borrower->email)->send(new FirstWarningDueDate($borrower));
+                Mail::to($borrower->email)->queue(new FirstWarningDueDate($borrower));
                 $borrower->first_warning = true;
             } elseif ($type === 'last') {
-                Mail::to($borrower->email)->send(new LastWarningDueDate($borrower));
+                Mail::to($borrower->email)->queue(new LastWarningDueDate($borrower));
                 $borrower->last_warning = true;
             }
 
