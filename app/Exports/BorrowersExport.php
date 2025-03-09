@@ -10,10 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class BorrowersExport implements FromView, ShouldAutoSize, WithHeadings
 {
-    public function __construct(private ?string $filterName, private ?string $filterStartMonth, private ?string $filterEndMonth)
-    {
-
-    }
+    public function __construct(private ?string $filterName, private ?string $filterStartMonth, private ?string $filterEndMonth) {}
 
     public function headings(): array
     {
@@ -27,15 +24,15 @@ class BorrowersExport implements FromView, ShouldAutoSize, WithHeadings
             'Returned',
             'First Warning',
             'Last Warning',
-            'Status'
+            'Status',
         ];
     }
 
     public function view(): View
     {
         $borrowers = Borrower::when($this->filterName, function ($query) {
-                $query->where('name', 'like', '%' . $this->filterName . '%');
-            })
+            $query->where('name', 'like', '%'.$this->filterName.'%');
+        })
             ->when($this->filterStartMonth, function ($query) {
                 $query->where('created_at', '>=', $this->filterStartMonth);
             })

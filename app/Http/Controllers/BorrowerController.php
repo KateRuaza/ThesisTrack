@@ -22,13 +22,13 @@ class BorrowerController extends Controller
         $borrowers = Borrower::when($filterName, function ($query) use ($filterName) {
             $query->where('name', 'like', '%'.$filterName.'%');
         })
-        ->when($filterStartMonth, function ($query) use ($filterStartMonth) {
-            $query->where('created_at', '>=', $filterStartMonth);
-        })
-        ->when($filterEndMonth, function ($query) use ($filterEndMonth) {
-            $query->where('created_at', '<=', $filterEndMonth);
-        })
-        ->paginate(10);
+            ->when($filterStartMonth, function ($query) use ($filterStartMonth) {
+                $query->where('created_at', '>=', $filterStartMonth);
+            })
+            ->when($filterEndMonth, function ($query) use ($filterEndMonth) {
+                $query->where('created_at', '<=', $filterEndMonth);
+            })
+            ->paginate(10);
 
         return inertia('Admin/BorrowerRecord', compact('borrowers'));
     }
@@ -91,6 +91,6 @@ class BorrowerController extends Controller
         $filterStartMonth = $request->input('filterStartMonth');
         $filterEndMonth = $request->input('filterEndMonth');
 
-        return Excel::download(new BorrowersExport($filterName, $filterStartMonth, $filterEndMonth), 'borrowers.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv',]);
+        return Excel::download(new BorrowersExport($filterName, $filterStartMonth, $filterEndMonth), 'borrowers.csv', \Maatwebsite\Excel\Excel::CSV, ['Content-Type' => 'text/csv']);
     }
 }
