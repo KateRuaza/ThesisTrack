@@ -65,6 +65,11 @@ onMounted(() => {
                     <div v-if="showAccountDropdown" class="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-gray-700 rounded-md shadow-lg z-50">
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
                             <li>
+                                <Link href="/user/profile" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Manage Profile
+                                </Link>
+                            </li>
+                            <li>
                                 <form @submit.prevent="logout">
                                     <DropdownLink as="button">Log Out</DropdownLink>
                                 </form>
