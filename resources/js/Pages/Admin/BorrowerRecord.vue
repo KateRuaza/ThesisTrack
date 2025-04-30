@@ -115,7 +115,14 @@ watch([filterName, filterStartMonth, filterEndMonth], debounce(() => {
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ borrower.returned_at ? formatDate(borrower.returned_at) : '' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ borrower.first_warning ? "Sent" : "" }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ borrower.last_warning ? "Sent" : "" }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm"><BorrowerStatus :borrower="borrower" :showPopup="showPopup" @toggleStatusPopUp="toggleStatusPopUp" @updateStatus="updateStatus" /></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                            <BorrowerStatus
+                                                :borrower="borrower"
+                                                :showPopup="showPopup"
+                                                :togglePopup="toggleStatusPopUp"
+                                                :updateStatus="updateStatus"
+                                            />
+                                        </td>
                                     </tr>
                                     <tr v-if="borrowers.data.length === 0">
                                         <td colspan="8" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500 dark:text-gray-400">No borrowers found.</td>
